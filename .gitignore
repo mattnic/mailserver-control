@@ -1,9 +1,7 @@
-# IDE
-.idea/
-
 ###> symfony/framework-bundle ###
 /.env
 /public/bundles/
+/public/build/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -16,3 +14,35 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+
+# ----------------------------
+# Generated Files & Folders
+# ----------------------------
+
+# [1] : Windows thumbnail cache files.
+# [2] : Folder config file.
+# [3] : Recycle Bin used on file shares.
+
+.idea
+.DS_Store
+.sass-cache
+Thumbs.db     # [1]
+ehthumbs.db   # [1]
+Desktop.ini   # [2]
+$RECYCLE.BIN  # [3]
+
+# ----------------------------
+# Packaging
+# ----------------------------
+
+logs
+*.log
+npm-debug.log*
+node_modules
+yarn.lock
+package-lock.json
+
+# ----------------------------
+# Project Folders
+# ----------------------------
+
