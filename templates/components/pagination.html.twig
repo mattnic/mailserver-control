@@ -1,0 +1,23 @@
+<div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+    Showing 1 to 10 of 57 entries
+</div>
+
+{% if pageCount > 1 %}
+<div class="btn-toolbar">
+    {% if previous is defined %}
+        <a class="btn btn-outline-secondary{% if current == previous %} disabled{% endif %}" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">Previous</a>
+    {% endif %}
+
+    <span class="btn-group mr-2">
+
+    {% for page in pagesInRange %}
+        <a class="btn {% if page == current %}btn-success{% else %}btn-outline-secondary{% endif %}" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+    {% endfor %}
+
+    </span>
+
+    {% if next is defined %}
+        <a class="btn btn-outline-secondary{% if current == next %} disabled{% endif %}" href="{{ path(route, query|merge({(pageParameterName): next})) }}">Next</a>
+    {% endif %}
+</div>
+{% endif %}

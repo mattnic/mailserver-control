@@ -15,6 +15,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Domain name</th>
+                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -23,13 +24,20 @@
 
                         <tr>
                             <th scope="row">{{ item.id }}</th>
-                            <td>{{ item.name }}</td>
+                            <td><a href="#?id={{ item.id }}">{{ item.name }}</a></td>
+                            <td class="text-right">
+                                <a class="btn cur-p btn-outline-primary" href="#"><span class="ti-email"></span> <strong>{{ item.num_mailbox }}</strong> mailboxes</a>
+                                <a class="btn cur-p btn-outline-primary" href="#"><span class="fa fa-forward"></span> <strong>{{ item.num_alias }}</strong> forwarders</a>
+                            </td>
                         </tr>
 
                         {% endfor %}
 
                         </tbody>
                     </table>
+                    <div class="navigation">
+                        {{ knp_pagination_render(results) }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -17,7 +17,7 @@
         private $id;
 
         /**
-         * @ORM\ManyToOne(targetEntity="Domain")
+         * @ORM\ManyToOne(targetEntity="Domain", inversedBy="mailboxes")
          * @ORM\JoinColumn(name="domain_id", referencedColumnName="id")
          */
         private $domain;

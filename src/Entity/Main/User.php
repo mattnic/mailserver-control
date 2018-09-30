@@ -63,6 +63,12 @@
         }
 
 
+        public function getId()
+        {
+            return $this->id;
+        }
+
+
         public function setUsername($username)
         {
             $this->username = $username;
@@ -120,7 +126,9 @@
 
         public function getRoles()
         {
-            return $this->roles;
+            $roles = array_merge(['ROLE_USER'], $this->roles);
+
+            return $roles;
         }
 
 
