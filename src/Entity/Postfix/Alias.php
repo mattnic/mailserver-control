@@ -25,6 +25,11 @@
         /**
          * @ORM\Column(type="string", length=100)
          */
+        private $name;
+
+        /**
+         * @ORM\Column(type="string", length=100, nullable=true)
+         */
         private $source;
 
         /**
@@ -44,7 +49,7 @@
          * @param Domain $domain
          * @return Alias
          */
-        public function setServer(Domain $domain = null)
+        public function setDomain(Domain $domain = null)
         {
             $this->domain = $domain;
             return $this;
@@ -55,10 +60,34 @@
          *
          * @return Domain
          */
-        public function getServer()
+        public function getDomain()
         {
             return $this->domain;
         }
+
+
+        /**
+         * Set Email Name
+         *
+         * @param string $value
+         * @return Alias
+         */
+        public function setName( $value )
+        {
+            $this->name = $value;
+            return $this;
+        }
+
+        /**
+         * Get Email Name
+         *
+         * @return string
+         */
+        public function getName()
+        {
+            return $this->name;
+        }
+
 
         /**
          * Set Domain
@@ -81,6 +110,7 @@
         {
             return $this->source;
         }
+
 
         /**
          * Set source email address

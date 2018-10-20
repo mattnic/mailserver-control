@@ -1,0 +1,38 @@
+{% extends '/base.html.twig' %}
+
+{% block title %}Welcome!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bgc-white bd bdrs-3 p-20 mB-20">
+                    <h4 class="c-grey-900 mB-20">Email Forwarders</h4>
+
+                    {{ form_start(form) }}
+                    <div class="form-group">
+                        {{ form_label(form.name) }}
+                        <div class="input-group">
+                            {{ form_widget(form.name) }}
+                            {% if form.domain is defined %}
+                                {{ form_widget(form.domain) }}
+                            {% else %}
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">@{{ item.domain.name }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.destination) }}
+                        {{ form_widget(form.destination) }}
+                    </div>
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

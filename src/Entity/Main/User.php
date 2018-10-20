@@ -123,6 +123,11 @@
             return $this->lastName;
         }
 
+        public function getFullName()
+        {
+            return trim($this->firstName .' '. $this->lastName);
+        }
+
 
         public function getRoles()
         {
