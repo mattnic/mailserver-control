@@ -51,7 +51,7 @@
             ]);
 
             $builder->add('submit', SubmitType::class, [
-                'label' => 'Save',
+                'label' => 'Save and Close',
                 'attr'  => array('class' => 'btn btn-primary'),
             ]);
 

@@ -1,0 +1,39 @@
+{% extends '/base.html.twig' %}
+
+{% block title %}User Form{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+
+        {% if userform.vars.valid == false or (password is defined and password.vars.valid == false) %}
+            <div class="alert alert-danger" role="alert">There was an error with this form, please correct the issues marked below.</div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="bgc-white bd bdrs-3 p-20 mB-20">
+                    <h4 class="c-grey-900 mB-20">User Form</h4>
+
+                    {{ form_start(userform) }}
+                    {{ form_end(userform) }}
+
+                </div>
+            </div>
+            <div class="col-md-6">
+
+                {% if password is defined %}
+                <div class="bgc-white bd bdrs-3 p-20 mB-20">
+                    <h4 class="c-grey-900 mB-20">Reset Password</h4>
+
+                    {{ form_start(password) }}
+                    {{ form_end(password) }}
+
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

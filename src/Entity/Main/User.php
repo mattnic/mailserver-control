@@ -104,7 +104,7 @@
 
         public function setFirstName($value)
         {
-            $this->password = $value;
+            $this->firstName = $value;
         }
 
         public function getFirstName()
@@ -115,7 +115,7 @@
 
         public function setLastName($value)
         {
-            $this->password = $value;
+            $this->lastName = $value;
         }
 
         public function getLastName()

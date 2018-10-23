@@ -1,33 +1,55 @@
 <?php
     namespace App\Controller;
 
+    use App\Form\PasswordForm;
     use App\Form\UserForm;
     use App\Entity\Main\User;
-    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Doctrine\ORM\EntityManagerInterface;
+    use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\Routing\Annotation\Route;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-    class UserController extends AbstractController
+    class UserController extends Controller
     {
-        /**
-         * @Route("/sign", name="user.signin")
-         */
-        public function sign()
+        private $em;
+
+        private $repo;
+
+        public function __construct(EntityManagerInterface $entityManager)
         {
+            $this->em = $entityManager;
 
-            return $this->render('user/signin.html.twig', [
-                'results' => []
-            ]);
-
+            $this->repo = $entityManager->getRepository(User::class);
         }
 
 
         /**
-         * @Route("/register", name="user_registration")
+         * @Route("/dashboard/user", name="dash.user.index")
          */
-        public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+        public function domainList(Request $request)
+        {
+            $query = $this->repo->buildQuery();
+
+            $paginator  = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('p', 1),
+                10
+            );
+
+
+            return $this->render('dashboard/user/index.html.twig', [
+                'results' => $pagination
+            ]);
+        }
+
+
+        /**
+         * @Route("/dashboard/user/add", name="dash.user.add")
+         */
+        public function add(Request $request, UserPasswordEncoderInterface $passwordEncoder)
         {
             // 1) build the form
             $user = new User();
@@ -52,9 +74,57 @@
                 return $this->redirectToRoute('dash.index');
             }
 
-            return $this->render(
-                'user/register.html.twig',
-                array('form' => $form->createView())
-            );
+
+            return $this->render('dashboard/user/edit.html.twig', [
+                'item'      => null,
+                'userform'  => $form->createView(),
+            ]);
+        }
+
+
+        /**
+         * @Route("/dashboard/user/{id}/edit", name="dash.user.edit")
+         */
+        public function edit(Request $request, UserPasswordEncoderInterface $passwordEncoder, $id)
+        {
+
+            // 1) build the form
+            $details = $this->repo->find( $id );
+
+
+            $userform = $this->createForm(UserForm::class, $details);
+            $userform->handleRequest($request);
+            if ($userform->isSubmitted()) {
+                if ($userform->isValid()) {
+
+                    $this->em->persist($details);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('dash.user.index');
+                }
+            }
+
+
+            $password = $this->createForm(PasswordForm::class, $details);
+            $password->handleRequest($request);
+            if ($password->isSubmitted()) {
+                if ($password->isValid()) {
+
+                    $password = $passwordEncoder->encodePassword($details, $details->getPlainPassword());
+                    $details->setPassword($password);
+
+                    $this->em->persist($details);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('dash.user.index');
+                }
+            }
+
+
+            return $this->render('dashboard/user/edit.html.twig', [
+                'item'      => $details,
+                'userform'  => $userform->createView(),
+                'password'  => $password->createView(),
+            ]);
         }
     }
